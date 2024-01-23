@@ -14,39 +14,43 @@
             <h1><strong>Simple Calculator</strong></h1>
             <form>
                 <input type="text" pattern="[0-9\W]*" id="display" readonly>
-                <div>
-                    <input type="button"  class="buttons" value="AC" onclick="clearAll()">
-                    <input type="button" class="buttons" value="DEL" onclick="del()">
-                    <input type="button" class="buttons" value="." onclick="getNum(value)">
-                    <input type="button" class="buttons" value="/" onclick="getOp(value)">
-                </div>
+                <input type="text" pattern="[0-9\W]*" id="display2" value="" readonly>
 
+                <div id="button-grid">
                 <div>
+                    <input type="button" id="ac" class="buttons remove" value="AC" onclick="clearAll()">
                     <input type="button" class="buttons" value="7" onclick="getNum(value)">
-                    <input type="button" class="buttons" value="8" onclick="getNum(value)">
-                    <input type="button" class="buttons" value="9" onclick="getNum(value)">
-                    <input type="button" class="buttons" value="*" onclick="getOp(value)">
-                </div>
-
-                <div>
                     <input type="button" class="buttons" value="4" onclick="getNum(value)">
-                    <input type="button" class="buttons" value="5" onclick="getNum(value)">
-                    <input type="button" class="buttons" value="6" onclick="getNum(value)">   
-                    <input type="button" class="buttons" value="-" onclick="getOp(value)">
-                </div>
-
-                <div>
                     <input type="button" class="buttons" value="1" onclick="getNum(value)">
-                    <input type="button" class="buttons" value="2" onclick="getNum(value)">
-                    <input type="button" class="buttons" value="3" onclick="getNum(value)">
-                    <input type="button" class="buttons" value="+" onclick="getOp(value)">
+                    <input type="button" class="buttons" value="00" onclick="getNum(value)">
+
                 </div>
 
                 <div>
-                    <input type="button" class="buttons" value="00" onclick="getNum(value)">
+                    <input type="button" id="delete" class="buttons remove" value="DEL" onclick="del()">
+                    <input type="button" class="buttons" value="8" onclick="getNum(value)">
+                    <input type="button" class="buttons" value="5" onclick="getNum(value)"> 
+                    <input type="button" class="buttons" value="2" onclick="getNum(value)">
                     <input type="button" class="buttons" value="0" onclick="getNum(value)">
+ 
+                </div>
+
+                <div>
+                    <input type="button" id="plus" class="buttons ops" value="+" onclick="getOp(value), setBackground('plus')">
+                    <input type="button" class="buttons" value="9" onclick="getNum(value)">
+                    <input type="button" class="buttons" value="6" onclick="getNum(value)">   
+                    <input type="button" class="buttons" value="3" onclick="getNum(value)"> 
+                    <input type="button" class="buttons" value="." onclick="getNum(value)">
+
+                </div>
+
+                <div>
+                    <input type="button" id="divide" class="buttons ops" value="/" onclick="getOp(value), setBackground('divide')">
+                    <input type="button" id="times"  class="buttons ops" value="*" onclick="getOp(value), setBackground('times')">
+                    <input type="button" id="minus" class="buttons ops" value="-" onclick="getOp(value), setBackground('minus')">
                     <input type="button" class="buttons equal" value="=" onclick="getAns()">                 
                 </div>
+            </div>
             </form>
             
         <div id="footer">
@@ -64,12 +68,29 @@
             let step = 0;
             let operator = ""
             let result =""
+            let opNum 
 
             let array1 = []
             let array2 = []
             let display = document.getElementById("display")
-             
-            
+            let display2 = document.getElementById("display2")
+            let myOps = document.getElementsByClassName('ops');
+            //let button = document.getElementById("select")
+
+
+
+/*
+            if(operator === ""){
+                display2.style.display = "none" ;
+            }
+            else if(operator != ""){
+                display2.value = operator.toString()
+                display2.style.display = "block";
+            }
+
+*/       
+
+
 
             function getNum(val){
 
@@ -102,6 +123,7 @@
                     
                     if(secondNumber.length === 0){
                         display.value += " "
+                        clrBackground()
                     }
                     display.value += val;
                     secondNumber += val
@@ -110,17 +132,7 @@
             }
 
             function getOp(op){
-                if((op === "-" ||op === "+") && step ===0 && firstNumber === "" && result === ""){
-                    firstNumber = op
-                    step = 1
-                    console.log("\nOVERWRITE..... ")
-                        console.log("Display: " + display.value)
-                        console.log("First Num: " + firstNumber)
-                        console.log("Second Num: " + secondNumber)
-                        console.log("Result: " + result)
-                        console.log("Operator: " + operator)
-                        console.log("Step: " + step)
-                }
+                
 
                 if(step===3 ){
                 getAns()
@@ -141,17 +153,30 @@
                         console.log("Step: " + step)
                 }
 
-                else if((step===1 || step ===2 ) && firstNumber != ""){ //putting an operator in front of the first number
+                else if((step===1 || step ===2 ) && !(firstNumber === "" || firstNumber ==="+" || firstNumber ==="-") ){ //putting an operator in front of the first number
                     
                     
                     display.value = firstNumber + " " + op ;
                     operator = op
                     step = 2
                 }
-                
+
+                else if((op === "-" ||op === "+") && step ===0 && firstNumber === "" && result === ""){
+                    firstNumber = op
+                    display.value = firstNumber
+                    step = 1
+                    console.log("\nOVERWRITE..... ")
+                        console.log("Display: " + display.value)
+                        console.log("First Num: " + firstNumber)
+                        console.log("Second Num: " + secondNumber)
+                        console.log("Result: " + result)
+                        console.log("Operator: " + operator)
+                        console.log("Step: " + step)
+                }
 
             
             }
+
             function del(){
                 display.value=display.value.slice(0,-1)
                 if(step ===0){      //deleting the result  
@@ -178,6 +203,7 @@
                     if(secondNumber.length === 0){
                         step = 2
                         display.value=display.value.slice(0,-1)
+                        setBackground(opNum)
                     }
                 }
 
@@ -185,6 +211,7 @@
                     display.value=display.value.slice(0,-1)
                     operator = operator.slice(0,-1)
                     step =1
+                    clrBackground()
                 }
 
                 console.log("\nDELETED.... ")
@@ -200,12 +227,11 @@
             function clearAll(){
                 display.value=""
                 firstNumber = ""
-                
                 SecondNumber = ""
-                
                 result = ""
                 step =0
                 operator = ""
+                clrBackground()
 
                     console.log("\nCLEAR ALL.... ")
                     console.log("Display: " + display.value)
@@ -274,7 +300,7 @@
                     
                     firstNumber =""
                     secondNumber = ""
-
+                    clrBackground()
 
                     /*
                     display.value = firstnumber + " " + op ;
@@ -285,7 +311,21 @@
                 }
             
             }
-            
+            function setBackground(num){
+                opNum =num
+                clrBackground()
+
+                myOps[num].style.background = "rgb(0, 195, 255)";
+                myOps[num].style.color = "black";
+
+            }
+
+            function clrBackground(){
+                for (var i = 0; i < myOps.length; i++) {
+                    myOps[i].style.background= "rgb(39, 75, 87)";
+                    myOps[i].style.color = 'rgb(0, 229, 255)'; // Set the text color to blue as an example
+                }
+            }
         
         
         </script>

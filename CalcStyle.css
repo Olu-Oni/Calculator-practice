@@ -4,7 +4,7 @@
     margin: 0px;
     padding: 0px;
     font-size:  1em;
-    
+    transition: all .3s ;
 }
 h1{
     text-decoration: underline;
@@ -22,31 +22,42 @@ h1{
     background-color:rgb(196, 229, 224);
 }
 form{
-    display: flex;
-    flex-direction:column;
-   
-    justify-content: space-around;
-    align-items: center;
+    
+    position: relative;
+    
     background-color:rgb(30, 26, 54);
-    height: 450px;
-    width: 255px;
+    height: 480px;
+    width: 280px;
     border-radius: 10px;
 }
 
+#button-grid{
+    
+    position: relative;
+    height: 395px;
+    padding: 7px;
+    display: flex;
+    flex-direction:row;
+    position: relative;
+    justify-content: space-between;
+    align-items: flex-end;
+}
 .buttons{ 
     flex-grow:1;
-    width: 50px;
-    height: calc(350px/6);
+    width: 55px;
+    height: 55px;
     margin: 4px;
-    border-radius: 5px;
+    border-radius:15px;
     background-color:rgb(30, 26, 54);
-    color: rgb(155, 155, 155);
+    color: rgb(0, 229, 255);
     cursor:pointer;
     border-style:none;
     
 }
 
 .buttons:active{ 
+    
+    background-color:rgb(39, 136, 201);
     color: white;
     transform:scale(.96);
     box-shadow: -4px -4px 15px 1px rgba(255,255, 255, 0.1), 5px 5px 15px  rgba(0,0, 0, 0.2);
@@ -55,19 +66,79 @@ form{
 
 #display{
     height: calc(350px/6);
+    position: relative;
+    top: 50px;
+    left: 5px;
     align-self: flex-end;
     margin: 5px 10px 0px 10px;
     width: 90%;
-    color: rgb(155, 155, 155);
-    background:rgb(37, 41, 57);
+    color: white;
+    background:transparent;
     border-top: none;
     border-left: none;
     font-size: 25px;
     text-align: right;
 }
 
+.remove{
+    background:rgb(155, 155, 155);
+    color: black;
+}
+
+#ac:active{ 
+    
+    background-color:rgb(1, 0, 61);
+    color: rgb(0, 229, 255);
+    
+}
+
+#delete:active{ 
+    
+    background-color:rgb(201, 128, 39);
+    color: black;
+    
+}
+#display2{
+    position:absolute;
+    border-radius: 5px; 
+   top: 35px;
+    right: 1px;
+    height: 12px;
+    align-self: flex-end;
+    margin: 5px 10px 0px 10px;
+    width: 40px;
+    border-bottom:2px solid rgb(63, 60, 82);
+    color: rgb(167, 167, 167);
+    background:transparent;
+    font-size: 15px;
+    text-align: center;
+    
+/*    display: none;  */
+
+}
+#button-group3{
+    justify-items: left;
+    align-items: flex-start;
+}
 .equal{
-    width: 110px;
+    height: 118px;
+    
+    background: rgb(68, 255, 243);
+    color:darkblue;
+    transition: .05s ease ease-in-out;
+    font-size: 25px;
+}
+
+.equal:active{
+    
+    background:rgb(206, 255, 252);
+    color:darkblue; 
+
+    
+}
+
+.ops{
+    background: rgb(39, 75, 87);
 }
 
 #footer{
@@ -75,3 +146,9 @@ form{
     position:absolute;
     bottom:0px;
 }
+
+
+/*
+ AC & DEL   rgb(155, 155, 155);
+ ops
+*/
