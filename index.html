@@ -7,13 +7,15 @@
         <meta name="description" content="A Simple Calculator App">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="CalcStyle.css">
+
+        
     </head>
     <body>
         <div id="container">
 
             <h1><strong>Simple Calculator</strong></h1>
             <form>
-                <input type="text" pattern="[0-9\W]*" id="display" readonly>
+                <input type="text" pattern="[0-9\W]*" id="display" >
                 <input type="text" pattern="[0-9\W]*" id="display2" value="" readonly>
 
                 <div id="button-grid">
@@ -36,7 +38,7 @@
                 </div>
 
                 <div>
-                    <input type="button" id="plus" class="buttons ops" value="+" onclick="getOp(value), setBackground('plus')">
+                    <input type="button" id="plus" class="buttons ops" value="+" onclick="getOp(value), setBackground(0)">
                     <input type="button" class="buttons" value="9" onclick="getNum(value)">
                     <input type="button" class="buttons" value="6" onclick="getNum(value)">   
                     <input type="button" class="buttons" value="3" onclick="getNum(value)"> 
@@ -45,10 +47,10 @@
                 </div>
 
                 <div>
-                    <input type="button" id="divide" class="buttons ops" value="/" onclick="getOp(value), setBackground('divide')">
-                    <input type="button" id="times"  class="buttons ops" value="*" onclick="getOp(value), setBackground('times')">
-                    <input type="button" id="minus" class="buttons ops" value="-" onclick="getOp(value), setBackground('minus')">
-                    <input type="button" class="buttons equal" value="=" onclick="getAns()">                 
+                    <input type="button" id="divide" class="buttons ops" value="/" onclick="getOp(value), setBackground(1)">
+                    <input type="button" id="times"  class="buttons ops" value="*" onclick="getOp(value), setBackground(2)">
+                    <input type="button" id="minus" class="buttons ops" value="-" onclick="getOp(value), setBackground(3)">
+                    <input type="button" class="buttons equal" value="=" onclick="result = getAns(display.value), display.value = result">                 
                 </div>
             </div>
             </form>
@@ -57,277 +59,6 @@
             <p>&copy;<em> Oni Oluwole </em></p>
         </div>
         </div>
-
-        
-        
-        <script>
-            
-        
-            let firstNumber = ''
-            let secondNumber = ''
-            let step = 0;
-            let operator = ""
-            let result =""
-            let opNum 
-
-            let array1 = []
-            let array2 = []
-            let display = document.getElementById("display")
-            let display2 = document.getElementById("display2")
-            let myOps = document.getElementsByClassName('ops');
-            //let button = document.getElementById("select")
-
-
-
-/*
-            if(operator === ""){
-                display2.style.display = "none" ;
-            }
-            else if(operator != ""){
-                display2.value = operator.toString()
-                display2.style.display = "block";
-            }
-
-*/       
-
-
-
-            function getNum(val){
-
-                if(step===0 || step ===1){
-                    if(result != ""){
-/*Clear All values when a number is inputed after a result has already been given before */
-                        display.value="" 
-                        firstNumber = ""
-                        
-                        secondNumber = ""
-                        
-                        result = ""
-
-                        console.log("\nOVERWRITE..... ")
-                        console.log("Display: " + display.value)
-                        console.log("First Num: " + firstNumber)
-                        console.log("Second Num: " + secondNumber)
-                        console.log("Result: " + result)
-                        console.log("Operator: " + operator)
-                        console.log("Step: " + (step +1))
-                        }
-
-                        display.value += val;
-                        
-                        firstNumber += val
-                        step = 1
-                    
-                }
-                else if(step===2 || step===3){
-                    
-                    if(secondNumber.length === 0){
-                        display.value += " "
-                        clrBackground()
-                    }
-                    display.value += val;
-                    secondNumber += val
-                    step =3  
-                }   
-            }
-
-            function getOp(op){
-                
-
-                if(step===3 ){
-                getAns()
-                }
-                if(step ===0 && result != ""){      //putting an operator in front of the result
-                    firstNumber =result 
-                    result =""
-                    display.value = firstNumber + " " + op ;
-                    operator = op
-                    
-                    step = 2  
-                    console.log("\nfirst number changed ")
-                    console.log("Display: " + display.value)
-                        console.log("First Num: " + firstNumber)
-                        console.log("Second Num: " + secondNumber)
-                        console.log("Result: " + result)
-                        console.log("Operator: " + operator)
-                        console.log("Step: " + step)
-                }
-
-                else if((step===1 || step ===2 ) && !(firstNumber === "" || firstNumber ==="+" || firstNumber ==="-") ){ //putting an operator in front of the first number
-                    
-                    
-                    display.value = firstNumber + " " + op ;
-                    operator = op
-                    step = 2
-                }
-
-                else if((op === "-" ||op === "+") && step ===0 && firstNumber === "" && result === ""){
-                    firstNumber = op
-                    display.value = firstNumber
-                    step = 1
-                    console.log("\nOVERWRITE..... ")
-                        console.log("Display: " + display.value)
-                        console.log("First Num: " + firstNumber)
-                        console.log("Second Num: " + secondNumber)
-                        console.log("Result: " + result)
-                        console.log("Operator: " + operator)
-                        console.log("Step: " + step)
-                }
-
-            
-            }
-
-            function del(){
-                display.value=display.value.slice(0,-1)
-                if(step ===0){      //deleting the result  
-                    result =  result.toString().slice(0,-1)
-                    console.log("\nLength of result:  " + result.length)
-                    
-                }
-
-                if(step ===1){      //deleting the first number
-                    
-                    firstNumber = firstNumber.toString().slice(0,-1)
-                    console.log("\nLength of 1st num:  " + firstNumber.length)
-                    
-                    if(firstNumber.length === 0){
-                        step = 0   
-                    }
-                }
-
-                else if(step===3){       //deleting the second number
-                    
-                    secondNumber =  secondNumber.toString().slice(0,-1)
-                    console.log("\nLength of 2nd num:  " + secondNumber.length)
-                    
-                    if(secondNumber.length === 0){
-                        step = 2
-                        display.value=display.value.slice(0,-1)
-                        setBackground(opNum)
-                    }
-                }
-
-                else if(step===2){       //deleting the operator (and adding back the space)
-                    display.value=display.value.slice(0,-1)
-                    operator = operator.slice(0,-1)
-                    step =1
-                    clrBackground()
-                }
-
-                console.log("\nDELETED.... ")
-                    console.log("Display: " + display.value)
-                    console.log("First Num: " + firstNumber)
-                    console.log("Second Num: " + secondNumber)
-                    console.log("Result: " + result)
-                    console.log("Operator: " + operator)
-                    console.log("Step: " + step)
-
-            }
-
-            function clearAll(){
-                display.value=""
-                firstNumber = ""
-                SecondNumber = ""
-                result = ""
-                step =0
-                operator = ""
-                clrBackground()
-
-                    console.log("\nCLEAR ALL.... ")
-                    console.log("Display: " + display.value)
-                    console.log("First Num: " + firstNumber)
-                    console.log("Second Num: " + secondNumber)
-                    console.log("Result: " + result)
-                    console.log("Operator: " + operator)
-                    console.log("Step: " + step)
-            }
-
-
-            function getAns(){
-                
-                if(step===3 || step === 1 ){
-                       
-                    switch(operator){
-                        
-                        case "":
-                            result = firstNumber
-                        //    console.log(firstNumber)
-                        break;
-                        case "/":
-                            result = Number(firstNumber) / Number(secondNumber)
-                        break;
-
-                        case "*":
-                            
-                            result = Number(firstNumber) * Number(secondNumber)
-                        
-                        break;
-
-                        case "+":
-                        result = Number(firstNumber) + Number(secondNumber)
-                        break;
-
-                        case "-":
-                            result = firstNumber - secondNumber
-
-                            
-                        break;
-                        default:
-                        result = "Error"
-
-                    }
-                    if(result.toString().includes(".")){
-                        result = Number(result).toFixed(4)
-                    }
-                    /*
-                    if(result.toString().length > 15){
-                        result = result.toFixed(4)
-                    }
-                    */
-                    display.value = result
-                    
-                    
-                    
-                    
-                    step =0
-                    console.log("\nEQUALS.... ")
-                    console.log("Display: " + display.value)
-                    console.log("First Num: " + firstNumber)
-                    console.log("Second Num: " + secondNumber)
-                    console.log("Result: " + result)
-                    console.log("Operator: " + operator)
-                    console.log("Step: " + step)
-                    
-                    firstNumber =""
-                    secondNumber = ""
-                    clrBackground()
-
-                    /*
-                    display.value = firstnumber + " " + op ;
-                    operator = op
-                    console.log()
-                    step = 2
-                    */
-                }
-            
-            }
-            function setBackground(num){
-                opNum =num
-                clrBackground()
-
-                myOps[num].style.background = "rgb(0, 195, 255)";
-                myOps[num].style.color = "black";
-
-            }
-
-            function clrBackground(){
-                for (var i = 0; i < myOps.length; i++) {
-                    myOps[i].style.background= "rgb(39, 75, 87)";
-                    myOps[i].style.color = 'rgb(0, 229, 255)'; // Set the text color to blue as an example
-                }
-            }
-        
-        
-        </script>
+        <script src="myScript.js"></script>
     </body>
 </html>
